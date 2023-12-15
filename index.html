@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+        height: 100vh;
+        width: -webkit-fill-available;
+        flex-direction: column;
+    }
+    .ctn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+        flex-wrap: wrap;
+    }
+    .zoom-box{
+        border: 2px solid rgb(36, 34, 34);
+        height: 160px;
+        width: 160px;
+        background: url(Wallpaper-House.com_91906.jpg);
+        background-position: 4px -56px;
+        background-size: 1200px 750px;
+        background-repeat: no-repeat;
+        image-rendering: pixelated;
+    }
+    .box{
+        height: 250px;
+        background: url(Wallpaper-House.com_91906.jpg);
+        width: 400px;
+        background-size: 100% 100%;
+        image-rendering: pixelated;
+        cursor: none;
+        position: relative;
+    }
+    .cursor{
+        position:absolute;
+        top: 0;
+        height: 54px;
+        width: 54px;
+        border: 1px solid white;
+        pointer-events: none;
+    }
+    .boxz{
+        height: 250px;
+        background: url(Wallpaper-House.com_91906.jpg);
+        width: 400px;
+        background-size: 100% 100%;
+        image-rendering: pixelated;
+        cursor: none;
+    }
+    .btn{
+        /* background: url(yosemite-valley-el-capitan-united-states-california-wallpaper-preview.jpg); */
+        /* background-size: 100% 100%; */
+        padding: 4px;
+        color: black;
+    }
+    .box2{
+        background: url(yosemite-valley-el-capitan-united-states-california-wallpaper-preview.jpg);
+        background-size: 100% 100%;
+    }
+    .box4{
+        background: url(Wallpaper-House.com_91906.jpg);
+        background-size: 100% 100%;
+    }
+    .box3{
+        background: url(yosemite-valley-el-capitan-united-states-california-wallpaper-preview.jpg);
+        background-size: 1200px 750px;
+        image-rendering: unset;
+    }
+    .cgbtn{
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: stretch;
+        gap: 1em;
+        margin: 2px;
+    }
+    .ctn-img{
+        position: relative;
+        height: 250px;
+        width: 400px;
+        background: gray;
+        overflow: hidden;
+    }
+    .img1{
+        height: 250px;
+        width:50%;
+        left: 0;
+        position: absolute;
+        background: url(Wallpaper-House.com_91906.jpg);
+        background-size: cover;
+    }
+    .img2{
+        height: 250px;
+        width:50%;
+        right: 0;
+        position: absolute;
+        background: url(yosemite-valley-el-capitan-united-states-california-wallpaper-preview.jpg);
+        background-size: cover;
+        background-position: right;
+    }
+    .slider{
+        position: absolute;
+        width: 4px;
+        height: -webkit-fill-available;
+        background: blue;
+        left: 50%;
+        z-index: 1;
+        cursor: w-resize;
+    }
+    .slider::after{
+        position: absolute;
+        content: "";
+        height: 30px;
+        width: 30px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: 50%;
+        background: blue;
+    }
+</style>
+<body>
+    <div class="ctn">
+        <div class="box" onmousemove="set(event)">
+            <span class="cursor"></span>
+        </div>
+        <div class="cgbtn">
+            <button onclick="change()" class="btn">Change the BG</button>
+            <div class="zoom-box"></div>
+        </div>
+    </div>
+
+    
+    <div class="ctn-img"ontouchmove="sliders(event)"  onmousemove="sliding(event)" >
+        <div class="img1"></div>
+        <div class="slider boxz" ></div>
+        <div class="img2"></div>
+    </div>
+</body>
+<script>
+    box = document.querySelector(".slider");
+    ctn = document.querySelector(".ctn-img");
+    img1 = document.querySelector(".img1");
+    img2 = document.querySelector(".img2");
+    box2 = document.querySelector(".box");
+    btn = document.querySelector(".btn");
+    box3 = document.querySelector(".zoom-box");
+    cur = document.querySelector(".cursor");
+
+    function change(){
+        box2.classList.toggle('box2');
+        box3.classList.toggle('box3');
+        // btn.classList.toggle('box4');
+        
+    }
+    function drag(x){
+		box.style.left = x + 'px';
+		img2.style.left = x + 'px';
+        img2.style.width = '-webkit-fill-available';
+        img1.style.width = '-webkit-fill-available';
+        img1.style.right = 400 - x + 'px';
+	}
+    var isDragging = false;
+    function sliding(event){
+        var x = event.clientX - ctn.getBoundingClientRect().left;
+        /////////////////////////////
+        ////////////////////////////
+        box.addEventListener("mousedown", ()=>{
+            isDragging = true;
+        });
+        if(isDragging){
+            box.addEventListener("mousemove", drag(x));
+        }
+        box.addEventListener("mouseup", ()=>{
+            box.removeEventListener("mousemove", drag);
+            isDragging = false
+        });
+    }
+
+
+
+    function set(e){
+        getX = setX = e.offsetX;
+        getY = setY = e.offsetY;
+        if(e.offsetX === 0){
+            setX = 0;
+        }
+        if(setX > 344){
+            setX = 344;
+        }
+        if(setY === 0){
+            setY = 0;
+        }
+        if(setY > 195){
+            setY = 195;
+        }
+        cur.style.left = setX + 'px';
+        cur.style.top = setY + 'px';
+        x = e.offsetX * 3;
+        y = e.offsetY * 3;
+        if(x >= 1044){
+            x = 1044;
+        }
+        if(y >= 591){
+            y = 591;
+        }
+        document.querySelector('.zoom-box').style.backgroundPosition = '-' + x + 'px'+ "  -" + y + 'px';
+    }
+    var isDragged = false
+    function sliders(event){
+        var x = event.targetTouches[0].clientX - ctn.getBoundingClientRect().left;
+        isDragged = true;
+        if(x < 0)
+        x = 0
+        
+        if(x >= 399)
+        x = 398
+        box.addEventListener('touchstart', ()=>{
+           //console.log('start');
+        });
+
+        box.addEventListener('touchmove',() =>{
+            if(isDragged)
+            drag(x);
+            //console.log(isDragged)
+        });
+        
+
+        box.addEventListener('touchend', ()=>{
+            isDragged = false
+        });
+    }
+</script>
+</html>
